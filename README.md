@@ -152,3 +152,9 @@ Si une logique de templating est utilisée :
 Tant que possible :
 - n'utilisez JS que pour ajouter / supprimer des classes sur le DOM (évitez d'injecter / supprimer directement des éléments du DOM)
 - évitez l'utilisation de fonctions / méthodes (en particulier celles qui manipule le DOM) dans une boucle
+
+
+## TODO
+- ajouter des exemples de projet et de modules JS, fichiers Sass et fichier de template dans un dossier `examples`
+- relire un coup 😅
+- garder à jour 😅
