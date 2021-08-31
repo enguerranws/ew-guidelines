@@ -1,6 +1,9 @@
 # EW Guidelines
 
-Les différentes recommandations de ce document ont pour but de décrire des façons de développer pour le web côté client, selon une méthode qui se veut facile à lire, à maintenir, tout en respectant des standards globaux (accessibilité, performances, sécurité).
+Les différentes recommandations de ce document ont pour but de décrire des façons de développer pour le web côté client, selon une méthode qui se veut :
+- facile à lire
+- facile à maintenir et faire évoluer
+- tout en respectant des standards globaux (accessibilité, performances, sécurité).
 
 ## Global
 
@@ -156,5 +159,6 @@ Tant que possible :
 
 ## TODO
 - ajouter des exemples de projet et de modules JS, fichiers Sass et fichier de template dans un dossier `examples`
+- ajouter un dossier de starters (avec structure de base, utilitaires, conf)
 - relire un coup 😅
 - garder à jour 😅
