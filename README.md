@@ -10,6 +10,7 @@ Les différentes recommandations de ce document ont pour but de décrire des fa�
 - le projet utilise des règles d'indentation cohérentes (nature de l'indentation, etc). Si besoin, se référer au fichier eslint du projet, ou utiliser un outil comme `Prettier` (sur un hook git par ex)
 - le choix d'une techno (jQuery, React, etc) ne peut être proposé / soutenu que s'il présente un intérêt pour le projet (soit en temps de dev, soit en maintenance / évolutivité)
 - sauf si la techno propose une nomenclature spéficique (React, classes PHP), nous utiliserons une syntaxe `kebab-case` pour tous les fichiers (Sass, JS, HTML)
+- ces guidelines partent du principe que le projet utilise un module bundler (en l'occurrence : Webpack)
 
 ## Tout est composant
 
@@ -55,7 +56,7 @@ Ce genre de sélecteurs sont lourds et n'ont pas d'intérêts concernant la lisi
 Explications
 - on ne nomme pas les blocks, elements et modifiers selon leurs aspects graphiques (`.button--blue`) mais selon un état, une sémantique. Exemple : `.button--disabled` ou `.button--disabled`
 - les modifiers ne doivent être appliqué que sur le block (le composant, pas ses éléments) : c'est le composant qui change d'état, ses enfants ne font que suivre le changement d'état de leur parent
-- ne pas empiler les classes pour atteindre le résultat graphique attendu : un composant à un état donné a un rendu. S'il faut partager des propriétés graphiques, on peut se référer aux variables CSS ou mixins, functions et placeholders Sass.
+- ne pas empiler les classes pour atteindre le résultat graphique attendu : un composant à un état donné a un rendu. S'il faut partager des propriétés graphiques, on peut se référer aux variables CSS ou bien aux extends, mixins, functions et placeholders Sass.
 
 
 ![bouton](img/article.png "Dos & don'ts : article")
@@ -136,6 +137,13 @@ Si une logique de templating est utilisée :
 }
 /* 🙏🙏🙏🙏🙏🙏🙏 */
 ```
+### Dépendances
+Les dépendances externes doivent être gérées via un package manager (et un seul, évitez le mix Yarn / NPM) et vérouillées sur un commit précis -> chaque rebuild du projet doit donner le même résultat si le code n'a pas changé.
+
+Dans le cas de Sass, les imports aux dépendances devraient se faire via le système de module, via le préfixe `~`.
+
+Exemple :
+`@import "~bulma"` plutôt que `@import "../../../node_modules/bulma/src/bulma.scss"`
 
 
 ## JS
@@ -157,6 +165,11 @@ Tant que possible :
 - n'utilisez JS que pour ajouter / supprimer des classes sur le DOM (évitez d'injecter / supprimer directement des éléments du DOM)
 - évitez l'utilisation de fonctions / méthodes (en particulier celles qui manipule le DOM) dans une boucle
 
+### Dépendances
+Les dépendances externes doivent être gérées via un package manager (et un seul, évitez le mix Yarn / NPM) et vérouillées sur un commit précis -> chaque rebuild du projet doit donner le même résultat si le code n'a pas changé.
+
+Exemple :
+`@import "~bulma"` plutôt que `@import "../../../node_modules/bulma/src/bulma.scss"`
 
 ## TODO
 - ajouter des exemples de projet et de modules JS, fichiers Sass et fichier de template dans un dossier `examples`
