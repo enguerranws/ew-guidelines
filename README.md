@@ -13,8 +13,9 @@ Les différentes recommandations de ce document ont pour but de décrire des fa�
 
 ## Tout est composant
 
-Ces recommandations servent, dans la grande majorité, un but commun : penser chaque élément d'interface comme composant, ou comme composant de composant (etc.).
-Cela permet un meilleure découpage de l'application ou du site et une meilleure lisibilité du code par rapport à l'interface.
+Ces recommandations servent, dans la grande majorité, un but commun : penser chaque élément d'interface comme composant, ou comme composant de composant (cf. Atomic Design).
+
+Cela permet un meilleure découpage de l'application ou du site et une meilleure lisibilité du code par rapport à l'interface utilisateur.
 En gros, le but est d'avoir quelque chose comme :
 - un template (PHP, Twig, React, etc) = un composant
 - un module JS = la couche fonctionnelle du composant
