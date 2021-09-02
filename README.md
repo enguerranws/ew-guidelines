@@ -14,7 +14,7 @@ Les différentes recommandations de ce document ont pour but de décrire des fa�
 
 ## Tout est composant
 
-Ces recommandations servent, dans la grande majorité, un but commun : penser chaque élément d'interface comme composant, ou comme composant de composant (cf. Atomic Design).
+Ces recommandations servent, dans la grande majorité, un but commun : penser chaque élément d'interface comme composant, ou comme composant de composant (cf. Atomic Design, https://atomicdesign.bradfrost.com/table-of-contents/).
 
 Cela permet un meilleure découpage de l'application ou du site et une meilleure lisibilité du code par rapport à l'interface utilisateur.
 En gros, le but est d'avoir quelque chose comme :
@@ -24,7 +24,17 @@ En gros, le but est d'avoir quelque chose comme :
 
 ## Nommage
 
-Bien que ce ne soit pas obligatoire, une méthode de nommage permettant de refléter cette logique de composants (ex: BEM) est très recommandée.
+Bien que ce ne soit pas obligatoire, une méthode de nommage permettant de refléter cette logique de composants (ex: BEM, http://getbem.com/) est très recommandée.
+
+### Restez cohérent
+Préférez nommer les choses en anglais :
+- les langages sont anglophones
+- les équipes / clients peuvent être internationaux
+
+Attention : essayez de limiter les erreurs / francisations -> 
+- un fonction getVehicule ? 🤨 = on comprend, mais bon...
+- un composant my-card pour une carte géographique ? 🤔 = un contresens qui peut faire perdre du temps
+- une fonction getUserRoute pour avoir le trajet d'un utilisateur ou la route conduisant à la page "Mon compte" ? 🤷
 
 ### BEM
 
@@ -69,7 +79,10 @@ Explications
 `.button.article-thumbnail__button` peut être pratique également, il précise la filiation avec le composant `.button` et également le contexte : `.article-thumbnail` et des variations graphiques liées à ce contexte particulier du bouton dans une miniature d'article. 
 Selon le projet, l'une ou l'autre technique peut être plus utile / appropriée.
 
-
+## Commentaires
+De façon générale, les commentaires peuvent être très pratique. Toutefois :
+- ça ne sert à rien d'en mettre partout, il faut qu'ils restent pertinent (ex : description de fonctions via JSDoc)
+- ils ne doivent pas apparaitre en prod
 
 ## HTML
 
@@ -90,6 +103,17 @@ Quelques points à respecter pour produire un code HTML performant :
 - utiliser les attributs `async` / `defer` tant que possible, ou reporter certaines ressources juste avant la fermeture de l'élément `body` afin de ne pas empêcher le rendu de la page
 - limiter / ne pas utiliser d'appels à des ressources externes, sauf exceptions (services tiers, etc.). Exemple : les typos Google Font doivent être rappatriées dans le projet, idem pour les libs JS.
 
+### Commentaires
+Des commentaires HTML peuvent être pratique, notamment dans le cas de fermeture de balise sur des structures importantes. 
+Exemple :
+```
+<section class="grid-wrapper">
+  <!-- pleins de trucs -->
+</section><!-- / .grid-wrapper -->
+```
+
+Par contre, ces commentaires ne doivent pas apparaître en prod.
+
 ## Templating
 
 Si une logique de templating est utilisée :
@@ -106,8 +130,45 @@ Si une logique de templating est utilisée :
 
 - bien peser le pour et le contre du choix d'un framework, notamment Bootstrap ou Foundation : s'ils ne sont utilisé que pour leur grille, pourquoi ne pas se tourner vers CSS Grid layouts ?
 
+### Ordre des déclarations
+Bien que le fait d'organiser ses déclarations CSS (par groupe, ex : layout, positionnement, puis style de texte, etc) soit quelque chose considéré comme une bonne pratique (https://www.alsacreations.com/actu/lire/497-de-lordre-que-diable-.html, https://dev.to/thekashey/happy-potter-and-the-order-of-css-5ec), ce n'est pas quelque chose qui me semble essentiel, ni pour le développement, ni pour la maintenance.
+
+Toutefois, un minimum me semble appréciable. Prenons cet exemple : 
+```
+.alert-box {
+    top: 20px; 
+    margin-left: 20px;
+    display: flex; 
+    position: absolute; 
+    height: 100%;  
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: red;
+    justify-content: center;
+    margin-left: 1rem;
+    left: 0;
+    width: 100%;
+}
+```
+- `top` est déclaré, mais `position` devrait arriver avant, ou au moins être collé (pour vraiment avoir les deux ensemble et bien comprendre ce qui se passe
+- `left` : idem, elle est super loin de `top` et `position`
+- `height` et `width` pourraient être regroupé
+- `display` pourrait être mise en premier, dans la mesure où cette propriété influe sur beaucoup des propriétés applicables sur l'élément
+
+Donc, au final, regroupez un peu, en plaçant `display` en premier, les déclarations de positionnement ensuite.
+
+
+### !important ?
+
+`!important` est **vraiment** à prescrire :
+- ça rend la maintenance difficile : très dur à surcharger
+- on perd complètement la main sur la spécificité constante donnée par BEM
+- il y a toujours un moyen de faire mieux en respectant la spécificité à l'intérieur du composant, même si ça prend 30 secondes de plus
+
+
 ### Les unités
 - les tailles de texte sont décrit en REM, si besoin en utilisant une mixin Sass (ou un CSS calc(), mais...) pour la conversion
+- si la valeur est 0, on ne rajoute pas d'unité
 - tant que possible, pour décrire des largeurs de blocs, on préférera utiliser des `%` ou `vw` (si le projet le permet)
 - minimiser le nombre de points de rupture. Par exmple, plutôt que de définir des largeurs de conteneurs fixes, en `px`, avec points de rupture les redéfinissant 4 ou 5 fois. Ce genre de bout de code peut être facilement remplacé en utilisant les `%` et `max-width`.
 ```
@@ -145,6 +206,17 @@ Dans le cas de Sass, les imports aux dépendances devraient se faire via le syst
 Exemple :
 `@import "~bulma"` plutôt que `@import "../../../node_modules/bulma/src/bulma.scss"`
 
+### Commentaires
+Des commentaires Sass peuvent être pratique :
+- pour décrire un composant
+- ses fichiers de template cible
+- décrire des hacks (si nécessaire). Exemple :
+
+```
+.card {
+  backface-visibility: hidden; // Prevent logo flickering on CSS transition
+}
+```
 
 ## JS
 
